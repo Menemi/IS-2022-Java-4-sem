@@ -79,3 +79,4 @@ fabric.properties
 *.class
 misc.xml
 vcs.xml
+discord.xml
