@@ -7,14 +7,14 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Account implements ChangesNotifyObserver {
-    private ArrayList<String> bankMessageList;
-    private ArrayList<Transaction> transactionHistory;
+    private final List<String> bankMessageList;
+    private final List<Transaction> transactionHistory;
 
     public Account(long id) {
         this.id = id;
         this.summaryPercent = this.summaryCommission = 0;
-        bankMessageList = new ArrayList<String>();
-        transactionHistory = new ArrayList<Transaction>();
+        bankMessageList = new ArrayList<>();
+        transactionHistory = new ArrayList<>();
     }
 
     public long id;
@@ -108,10 +108,10 @@ public class Account implements ChangesNotifyObserver {
                 return;
             }
 
-            while (checkDate != startDate) {
+            while (checkDate.equals(startDate)) {
                 summaryCommission += commission;
 
-                startDate.plusDays(1);
+                startDate = startDate.plusDays(1);
 
                 if (startDate.getDayOfMonth() == 1) {
                     reduceMoney(summaryCommission);
@@ -119,14 +119,15 @@ public class Account implements ChangesNotifyObserver {
                 }
             }
         } else {
-            while (checkDate != startDate) {
+            while (!checkDate.equals(startDate)) {
                 int divider = 365;
 
                 if (LocalDate.now().isLeapYear()) {
                     divider = 366;
                 }
-                summaryPercent += balance * Math.round(percent / divider);
-                startDate.plusDays(1);
+                String strSummaryPercent = String.format("%.2f", (percent / divider)).replace(',', '.');
+                summaryPercent += balance * Double.parseDouble(strSummaryPercent) / 100;
+                startDate = startDate.plusDays(1);
 
                 if (startDate.getDayOfMonth() == 1) {
                     increaseMoney(summaryPercent);
@@ -136,6 +137,7 @@ public class Account implements ChangesNotifyObserver {
         }
     }
 
+    @Override
     public void update(String message) {
         bankMessageList.add(message);
     }
