@@ -1,8 +1,7 @@
 package ru.itmo.banks;
 
 public class PercentOfTheAmount {
-    public PercentOfTheAmount(double lowerBound, double upperBound, double percent)
-    {
+    public PercentOfTheAmount(double lowerBound, double upperBound, double percent) {
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
         this.percent = percent;

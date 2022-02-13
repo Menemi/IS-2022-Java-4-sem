@@ -4,8 +4,7 @@ public abstract class ClientBuilder {
 
     public Person Person;
 
-    public Person createNewClient(String name, String surname)
-    {
+    public Person createNewClient(String name, String surname) {
         Person = new Person(name, surname);
         return Person;
     }

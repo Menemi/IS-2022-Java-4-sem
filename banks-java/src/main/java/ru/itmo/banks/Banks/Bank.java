@@ -18,19 +18,19 @@ import java.util.*;
 public class Bank implements ChangesNotifyObservable {
     private static int bankIdCounter = 1;
     private static long accountIdCounter = 1000000000;
-    private ArrayList<Account> clientsAccounts;
-    private HashMap<Account, ChangesNotifyObserver> clientsAccountObservers;
-    private ArrayList<PercentOfTheAmount> percentsOfTheAmount;
+    private final List<Account> clientsAccounts;
+    private final Map<Account, ChangesNotifyObserver> clientsAccountObservers;
+    private final List<PercentOfTheAmount> percentsOfTheAmount;
     private double fixedPercent;
-    private double maxWithdrawAmount;
+    private final double maxWithdrawAmount;
     private double maxRemittanceAmount;
     private double creditLimit;
-    private double commission;
-    private LocalDate accountUnblockingPeriod;
+    private final double commission;
+    private final LocalDate accountUnblockingPeriod;
 
     public Bank(
             String bankName,
-            ArrayList<PercentOfTheAmount> percentsOfTheAmount,
+            List<PercentOfTheAmount> percentsOfTheAmount,
             double fixedPercent,
             double maxWithdrawAmount,
             double maxRemittanceAmount,
@@ -40,8 +40,8 @@ public class Bank implements ChangesNotifyObservable {
         id = bankIdCounter++;
         name = bankName;
         this.percentsOfTheAmount = percentsOfTheAmount;
-        clientsAccountObservers = new HashMap<Account, ChangesNotifyObserver>();
-        clientsAccounts = new ArrayList<Account>();
+        clientsAccountObservers = new HashMap<>();
+        clientsAccounts = new ArrayList<>();
         this.fixedPercent = fixedPercent;
         this.maxWithdrawAmount = maxWithdrawAmount;
         this.maxRemittanceAmount = maxRemittanceAmount;
@@ -71,7 +71,7 @@ public class Bank implements ChangesNotifyObservable {
     }
 
     public Account сreateCreditAccount(Person person, double startBalance) {
-        var account = Account.createBuilder(accountIdCounter++)
+        Account account = Account.createBuilder(accountIdCounter++)
                 .setStartBalance(startBalance)
                 .setMaxWithdraw(maxWithdrawAmount)
                 .setMaxRemittance(maxRemittanceAmount)
@@ -86,7 +86,7 @@ public class Bank implements ChangesNotifyObservable {
     }
 
     public Account сreateDebitAccount(Person person, double startBalance) {
-        var account = Account.createBuilder(accountIdCounter++)
+        Account account = Account.createBuilder(accountIdCounter++)
                 .setPercent(fixedPercent)
                 .setStartBalance(startBalance)
                 .setMaxWithdraw(maxWithdrawAmount)
@@ -100,7 +100,7 @@ public class Bank implements ChangesNotifyObservable {
     }
 
     public Account сreateDepositAccount(Person person, double startBalance) throws BanksException {
-        var account = Account.createBuilder(accountIdCounter++)
+        Account account = Account.createBuilder(accountIdCounter++)
                 .setPercent(fixedPercent)
                 .setDepositPercent(updateDepositPercent(startBalance))
                 .setStartBalance(startBalance)
@@ -116,10 +116,10 @@ public class Bank implements ChangesNotifyObservable {
     }
 
     public void setCreditLimit(double amount) {
-        var oldCreditLimit = creditLimit;
+        double oldCreditLimit = creditLimit;
         creditLimit = amount;
-        HashMap<Account, ChangesNotifyObserver> observersList = new HashMap<Account, ChangesNotifyObserver>();
-        ArrayList<Account> creditAccounts = new ArrayList<Account>();
+        Map<Account, ChangesNotifyObserver> observersList = new HashMap<>();
+        List<Account> creditAccounts = new ArrayList<>();
         for (Account account : clientsAccounts) {
             if (account.creditLimit != 0) {
                 creditAccounts.add(account);
@@ -144,8 +144,7 @@ public class Bank implements ChangesNotifyObservable {
 
     public void setFixedPercent(double amount) {
         fixedPercent = amount;
-        HashMap<Account, ChangesNotifyObserver> observersList = new HashMap<Account, ChangesNotifyObserver>();
-        ArrayList<Account> debitOrDepositAccounts = new ArrayList<Account>();
+        Map<Account, ChangesNotifyObserver> observersList = new HashMap<>();
         for (Account account : clientsAccounts) {
             if (account.percent != 0) {
                 account.percent = fixedPercent;
@@ -173,7 +172,7 @@ public class Bank implements ChangesNotifyObservable {
     }
 
     public void replenishment(Account account, double amount) throws BanksException {
-        var transaction = new TransactionReplenishment(null, account, amount, account.transactionIdCounter++);
+        Transaction transaction = new TransactionReplenishment(null, account, amount, account.transactionIdCounter++);
         account.newTransaction(transaction);
 
         if (account.accountUnblockingPeriod != LocalDate.MIN) {
@@ -182,12 +181,12 @@ public class Bank implements ChangesNotifyObservable {
     }
 
     public void withdraw(Account account, double amount) throws BanksException {
-        if (account.accountUnblockingPeriod.isAfter(LocalDate.now())) {
+        if (account.accountUnblockingPeriod != null && account.accountUnblockingPeriod.isAfter(LocalDate.now())) {
             throw new BanksException(String.format("Unblocking period (%s) did not come, you can't withdraw any money",
                     account.accountUnblockingPeriod));
         }
 
-        var transaction = new TransactionWithdraw(null, account, amount, account.transactionIdCounter++);
+        Transaction transaction = new TransactionWithdraw(null, account, amount, account.transactionIdCounter++);
         account.newTransaction(transaction);
 
         if (account.accountUnblockingPeriod != LocalDate.MIN) {
@@ -195,14 +194,13 @@ public class Bank implements ChangesNotifyObservable {
         }
     }
 
-    public void remittance(Account sender, Account recipient, double amount)
-            throws BanksException {
-        if (sender.accountUnblockingPeriod.isAfter(LocalDate.now())) {
+    public void remittance(Account sender, Account recipient, double amount) throws BanksException {
+        if (sender.accountUnblockingPeriod != null && sender.accountUnblockingPeriod.isAfter(LocalDate.now())) {
             throw new BanksException(String.format("Unblocking period (%s) did not come, you can't transfer any money",
                     sender.accountUnblockingPeriod));
         }
 
-        var transaction = new TransactionRemittance(sender, recipient, amount, sender.transactionIdCounter++);
+        Transaction transaction = new TransactionRemittance(sender, recipient, amount, sender.transactionIdCounter++);
         sender.newTransaction(transaction);
 
         if (sender.accountUnblockingPeriod != LocalDate.MIN) {
@@ -215,7 +213,7 @@ public class Bank implements ChangesNotifyObservable {
     }
 
     public void cancellation(Account account, Transaction oldTransaction) throws BanksException {
-        var transaction = new TransactionCancellation(oldTransaction);
+        Transaction transaction = new TransactionCancellation(oldTransaction);
         account.newTransaction(transaction);
 
         if (account.accountUnblockingPeriod != LocalDate.MIN) {
@@ -229,6 +227,7 @@ public class Bank implements ChangesNotifyObservable {
         }
     }
 
+    @Override
     public void registerObserver(Account account, ChangesNotifyObserver accountsObserver) throws BanksException {
         for (ChangesNotifyObserver accountObserver : clientsAccountObservers.values()) {
             if (accountObserver == accountsObserver) {
@@ -239,6 +238,7 @@ public class Bank implements ChangesNotifyObservable {
         clientsAccountObservers.put(account, accountsObserver);
     }
 
+    @Override
     public void removeObserver(Account account, ChangesNotifyObserver accountsObserver) throws BanksException {
         for (ChangesNotifyObserver accountObserver : clientsAccountObservers.values()) {
             if (accountObserver == accountsObserver) {
@@ -250,7 +250,8 @@ public class Bank implements ChangesNotifyObservable {
         throw new BanksException("Account has already been added to notified accounts list");
     }
 
-    public void notifyObservers(HashMap<Account, ChangesNotifyObserver> observers, double amount, BankMessage message) {
+    @Override
+    public void notifyObservers(Map<Account, ChangesNotifyObserver> observers, double amount, BankMessage message) {
         for (Account observer : observers.keySet()) {
             observer.update(message.messageToClient(observer, amount));
         }

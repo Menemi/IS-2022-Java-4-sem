@@ -3,10 +3,10 @@ package ru.itmo.banks.Accounts;
 import java.time.LocalDate;
 
 public class AccountBuilder {
-    private Account account;
+    private final Account account;
 
     public AccountBuilder(long id) {
-       account = new Account(id);
+        account = new Account(id);
     }
 
     public AccountBuilder setPercent(double percent) {

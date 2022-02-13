@@ -1,8 +1,7 @@
 package ru.itmo.banks.Clients;
 
 public class Passport {
-    public Passport(int series, int number)
-    {
+    public Passport(int series, int number) {
         this.series = series;
         this.number = number;
     }

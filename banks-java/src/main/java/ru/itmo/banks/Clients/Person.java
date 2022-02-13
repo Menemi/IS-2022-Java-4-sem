@@ -5,12 +5,13 @@ import ru.itmo.banks.Accounts.Account;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class Person {
-    private ArrayList<Account> accountsList;
+    private final List<Account> accountsList;
 
     public Person(String name, String surname) {
-        accountsList = new ArrayList<Account>();
+        accountsList = new ArrayList<>();
         this.name = name;
         this.surname = surname;
         address = null;
