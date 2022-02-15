@@ -214,6 +214,7 @@ public class Bank implements ChangesNotifyObservable {
 
     public void cancellation(Account account, Transaction oldTransaction) throws BanksException {
         Transaction transaction = new TransactionCancellation(oldTransaction);
+        transaction.id = account.transactionIdCounter++;
         account.newTransaction(transaction);
 
         if (account.accountUnblockingPeriod != LocalDate.MIN) {
