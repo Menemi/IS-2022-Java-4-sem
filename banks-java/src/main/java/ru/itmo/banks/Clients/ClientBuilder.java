@@ -1,8 +1,7 @@
 package ru.itmo.banks.Clients;
 
 public abstract class ClientBuilder {
-
-    public Person Person;
+    protected Person Person;
 
     public Person createNewClient(String name, String surname) {
         Person = new Person(name, surname);

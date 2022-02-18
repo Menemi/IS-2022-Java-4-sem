@@ -7,13 +7,13 @@ public class TransactionRemittance extends Transaction {
     public TransactionRemittance(Account sender, Account recipient, double transactionAmount, int id)
             throws BanksException {
         super(id, sender, recipient, transactionAmount);
-        if (sender.maxRemittance != -1 && transactionAmount > sender.maxRemittance) {
+        if (sender.getMaxRemittance() != -1 && transactionAmount > sender.getMaxRemittance()) {
             throw new BanksException(String.format("Your profile is doubtful you can't transfer more than %f",
-                    sender.maxRemittance));
+                    sender.getMaxRemittance()));
         }
 
-        if (sender.balance < transactionAmount) {
-            throw new BanksException(String.format("You have not enough money (%f)", sender.balance));
+        if (sender.getBalance() < transactionAmount) {
+            throw new BanksException(String.format("You have not enough money (%f)", sender.getBalance()));
         }
 
         sender.reduceMoney(transactionAmount);

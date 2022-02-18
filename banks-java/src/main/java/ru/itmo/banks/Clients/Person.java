@@ -10,6 +10,12 @@ import java.util.List;
 public class Person {
     private final List<Account> accountsList;
 
+    protected String name;
+    protected String surname;
+    protected String address;
+    protected Passport passport;
+    protected boolean doubtful;
+
     public Person(String name, String surname) {
         accountsList = new ArrayList<>();
         this.name = name;
@@ -18,12 +24,6 @@ public class Person {
         passport = null;
         doubtful = true;
     }
-
-    public String name;
-    public String surname;
-    public String address;
-    public Passport passport;
-    public boolean doubtful;
 
     public String getName() {
         return name;

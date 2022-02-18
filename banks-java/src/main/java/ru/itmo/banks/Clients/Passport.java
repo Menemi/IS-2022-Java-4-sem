@@ -1,13 +1,13 @@
 package ru.itmo.banks.Clients;
 
 public class Passport {
+    protected int series;
+    protected int number;
+
     public Passport(int series, int number) {
         this.series = series;
         this.number = number;
     }
-
-    public int series;
-    public int number;
 
     public int getSeries() {
         return series;

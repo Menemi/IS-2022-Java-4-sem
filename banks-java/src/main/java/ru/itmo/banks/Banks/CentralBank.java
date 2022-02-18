@@ -12,15 +12,11 @@ public class CentralBank {
     private static CentralBank instance;
     private final List<Bank> banks;
 
+    protected String name;
+
     protected CentralBank(String cBankName) {
         name = cBankName;
         banks = new ArrayList<>();
-    }
-
-    public String name;
-
-    public String getName() {
-        return name;
     }
 
     public static CentralBank getInstance(String name) {
@@ -29,6 +25,10 @@ public class CentralBank {
         }
 
         return instance;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Bank createBank(

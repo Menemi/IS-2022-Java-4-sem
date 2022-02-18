@@ -10,25 +10,24 @@ public class Account implements ChangesNotifyObserver {
     private final List<String> bankMessageList;
     private final List<Transaction> transactionHistory;
 
+    protected final long id;
+    protected double percent;
+    protected double balance;
+    protected double maxWithdraw;
+    protected double maxRemittance;
+    protected double creditLimit;
+    protected double commission;
+    protected LocalDate accountUnblockingPeriod;
+    protected int transactionIdCounter;
+    protected double summaryPercent;
+    protected double summaryCommission;
+
     public Account(long id) {
         this.id = id;
         this.summaryPercent = this.summaryCommission = 0;
         bankMessageList = new ArrayList<>();
         transactionHistory = new ArrayList<>();
     }
-
-    public long id;
-    public double percent;
-    public double balance;
-    public double maxWithdraw;
-    public double maxRemittance;
-    public double creditLimit;
-    public double commission;
-    public LocalDate accountUnblockingPeriod;
-    public int transactionIdCounter;
-    public double summaryPercent;
-
-    public double summaryCommission;
 
     public long getId() {
         return id;
@@ -72,6 +71,46 @@ public class Account implements ChangesNotifyObserver {
 
     public double getSummaryCommission() {
         return summaryCommission;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void setMaxWithdraw(double maxWithdraw) {
+        this.maxWithdraw = maxWithdraw;
+    }
+
+    public void setMaxRemittance(double maxRemittance) {
+        this.maxRemittance = maxRemittance;
+    }
+
+    public void setCreditLimit(double creditLimit) {
+        this.creditLimit = creditLimit;
+    }
+
+    public void setCommission(double commission) {
+        this.commission = commission;
+    }
+
+    public void setAccountUnblockingPeriod(LocalDate accountUnblockingPeriod) {
+        this.accountUnblockingPeriod = accountUnblockingPeriod;
+    }
+
+    public void setTransactionIdCounter(int transactionIdCounter) {
+        this.transactionIdCounter = transactionIdCounter;
+    }
+
+    public void setSummaryPercent(double summaryPercent) {
+        this.summaryPercent = summaryPercent;
+    }
+
+    public void setSummaryCommission(double summaryCommission) {
+        this.summaryCommission = summaryCommission;
     }
 
     public Collection<String> getBankMessageList() {

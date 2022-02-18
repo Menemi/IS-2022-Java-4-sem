@@ -52,7 +52,7 @@ public class BanksTest {
 
         tinkoff.remittance(bidenDebit, putinDebit, 100);
 
-        assertEquals(100100, putinDebit.balance);
+        assertEquals(100100, putinDebit.getBalance());
 
         assertThrows(BanksException.class, () -> {
             tinkoff.withdraw(bidenDebit, 30000);
@@ -97,11 +97,11 @@ public class BanksTest {
         timeMachine.TimeRewind(centralBank, dateToRewind);
 
         assertEquals(putin.getAccounts().size(), 3);
-        assertEquals(100190, putinDebit.balance);
-        assertEquals(200380, bidenDebit.balance);
-        assertEquals(110000, putinCredit.balance);
-        assertEquals(100380, putinDeposit.balance);
-        assertEquals(10019, bidenDeposit.balance);
+        assertEquals(100190, putinDebit.getBalance());
+        assertEquals(200380, bidenDebit.getBalance());
+        assertEquals(110000, putinCredit.getBalance());
+        assertEquals(100380, putinDeposit.getBalance());
+        assertEquals(10019, bidenDeposit.getBalance());
     }
 
     @Test
@@ -146,10 +146,10 @@ public class BanksTest {
 
         assertEquals(5, tinkoff.getClientsAccounts().size());
         assertEquals(3, tinkoff.getNotifiedAccounts().size());
-        assertEquals(3.5, putinDebit.percent);
-        assertEquals(11000, putinDebit.maxRemittance);
+        assertEquals(3.5, putinDebit.getPercent());
+        assertEquals(11000, putinDebit.getMaxRemittance());
         assertEquals(2, putinDebit.getBankMessageList().size());
-        assertEquals(3.5, bidenDebit.percent);
+        assertEquals(3.5, bidenDebit.getPercent());
         assertEquals(0, bidenDebit.getBankMessageList().size());
     }
 }

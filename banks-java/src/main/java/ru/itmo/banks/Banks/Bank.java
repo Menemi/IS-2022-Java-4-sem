@@ -121,7 +121,7 @@ public class Bank implements ChangesNotifyObservable {
         Map<Account, ChangesNotifyObserver> observersList = new HashMap<>();
         List<Account> creditAccounts = new ArrayList<>();
         for (Account account : clientsAccounts) {
-            if (account.creditLimit != 0) {
+            if (account.getCreditLimit() != 0) {
                 creditAccounts.add(account);
             }
         }
@@ -129,11 +129,11 @@ public class Bank implements ChangesNotifyObservable {
         for (Account account : creditAccounts) {
             account.reduceMoney(oldCreditLimit);
             account.increaseMoney(creditLimit);
-            account.creditLimit = creditLimit;
+            account.setCreditLimit(creditLimit);
         }
 
         for (Account observer : clientsAccountObservers.keySet()) {
-            if (observer.creditLimit != 0) {
+            if (observer.getCreditLimit() != 0) {
                 observersList.put(observer, clientsAccountObservers.get(observer));
             }
         }
@@ -146,13 +146,13 @@ public class Bank implements ChangesNotifyObservable {
         fixedPercent = amount;
         Map<Account, ChangesNotifyObserver> observersList = new HashMap<>();
         for (Account account : clientsAccounts) {
-            if (account.percent != 0) {
-                account.percent = fixedPercent;
+            if (account.getPercent() != 0) {
+                account.setPercent(fixedPercent);
             }
         }
 
         for (Account observer : clientsAccountObservers.keySet()) {
-            if (observer.percent != 0) {
+            if (observer.getPercent() != 0) {
                 observersList.put(observer, clientsAccountObservers.get(observer));
             }
         }
@@ -165,60 +165,64 @@ public class Bank implements ChangesNotifyObservable {
         maxRemittanceAmount = amount;
         BankMessage message = new RemittanceLimitChangeImpl();
         for (Account account : clientsAccounts) {
-            account.maxRemittance = maxRemittanceAmount;
+            account.setMaxRemittance(maxRemittanceAmount);
         }
 
         notifyObservers(clientsAccountObservers, maxRemittanceAmount, message);
     }
 
     public void replenishment(Account account, double amount) throws BanksException {
-        Transaction transaction = new TransactionReplenishment(null, account, amount, account.transactionIdCounter++);
+        Transaction transaction = new TransactionReplenishment(null, account, amount, account.getTransactionIdCounter());
+        account.setTransactionIdCounter(account.getTransactionIdCounter() + 1);
         account.newTransaction(transaction);
 
-        if (account.accountUnblockingPeriod != LocalDate.MIN) {
-            updateDepositPercent(account.balance);
+        if (account.getAccountUnblockingPeriod() != LocalDate.MIN) {
+            updateDepositPercent(account.getBalance());
         }
     }
 
     public void withdraw(Account account, double amount) throws BanksException {
-        if (account.accountUnblockingPeriod != null && account.accountUnblockingPeriod.isAfter(LocalDate.now())) {
+        if (account.getAccountUnblockingPeriod() != null && account.getAccountUnblockingPeriod().isAfter(LocalDate.now())) {
             throw new BanksException(String.format("Unblocking period (%s) did not come, you can't withdraw any money",
-                    account.accountUnblockingPeriod));
+                    account.getAccountUnblockingPeriod()));
         }
 
-        Transaction transaction = new TransactionWithdraw(null, account, amount, account.transactionIdCounter++);
+        Transaction transaction = new TransactionReplenishment(null, account, amount, account.getTransactionIdCounter());
+        account.setTransactionIdCounter(account.getTransactionIdCounter() + 1);
         account.newTransaction(transaction);
 
-        if (account.accountUnblockingPeriod != LocalDate.MIN) {
-            updateDepositPercent(account.balance);
+        if (account.getAccountUnblockingPeriod() != LocalDate.MIN) {
+            updateDepositPercent(account.getBalance());
         }
     }
 
     public void remittance(Account sender, Account recipient, double amount) throws BanksException {
-        if (sender.accountUnblockingPeriod != null && sender.accountUnblockingPeriod.isAfter(LocalDate.now())) {
+        if (sender.getAccountUnblockingPeriod() != null && sender.getAccountUnblockingPeriod().isAfter(LocalDate.now())) {
             throw new BanksException(String.format("Unblocking period (%s) did not come, you can't transfer any money",
-                    sender.accountUnblockingPeriod));
+                    sender.getAccountUnblockingPeriod()));
         }
 
-        Transaction transaction = new TransactionRemittance(sender, recipient, amount, sender.transactionIdCounter++);
+        Transaction transaction = new TransactionRemittance(sender, recipient, amount, sender.getTransactionIdCounter());
+        sender.setTransactionIdCounter(sender.getTransactionIdCounter() + 1);
         sender.newTransaction(transaction);
 
-        if (sender.accountUnblockingPeriod != LocalDate.MIN) {
-            updateDepositPercent(sender.balance);
+        if (sender.getAccountUnblockingPeriod() != LocalDate.MIN) {
+            updateDepositPercent(sender.getBalance());
         }
 
-        if (recipient.accountUnblockingPeriod != LocalDate.MIN) {
-            updateDepositPercent(recipient.balance);
+        if (recipient.getAccountUnblockingPeriod() != LocalDate.MIN) {
+            updateDepositPercent(recipient.getBalance());
         }
     }
 
     public void cancellation(Account account, Transaction oldTransaction) throws BanksException {
         Transaction transaction = new TransactionCancellation(oldTransaction);
-        transaction.id = account.transactionIdCounter++;
+        transaction.setId(account.getTransactionIdCounter());
+        account.setTransactionIdCounter(account.getTransactionIdCounter() + 1);
         account.newTransaction(transaction);
 
-        if (account.accountUnblockingPeriod != LocalDate.MIN) {
-            updateDepositPercent(account.balance);
+        if (account.getAccountUnblockingPeriod() != LocalDate.MIN) {
+            updateDepositPercent(account.getBalance());
         }
     }
 
@@ -260,8 +264,8 @@ public class Bank implements ChangesNotifyObservable {
 
     private double updateDepositPercent(double balance) throws BanksException {
         for (PercentOfTheAmount percent : percentsOfTheAmount) {
-            if (percent.lowerBound <= balance && percent.upperBound >= balance) {
-                return percent.percent;
+            if (percent.getLowerBound() <= balance && percent.getUpperBound() >= balance) {
+                return percent.getPercent();
             }
         }
 

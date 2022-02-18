@@ -186,7 +186,7 @@ public class Program {
                         System.out.println("Type your full name:");
                         String name = new Scanner(System.in).nextLine();
                         for (Person person : people) {
-                            if ((person.name + " " + person.surname).equals(name)) {
+                            if ((person.getName() + " " + person.getSurname()).equals(name)) {
                                 System.out.println(
                                         "Type the type of your account (credit / debit / deposit) and " +
                                                 "then make a deposit (or type 0):");
@@ -213,12 +213,12 @@ public class Program {
                 System.out.println("Type your full name:");
                 String name = new Scanner(System.in).nextLine();
                 for (Person person : people) {
-                    if ((person.name + " " + person.surname).equals(name)) {
+                    if ((person.getName() + " " + person.getSurname()).equals(name)) {
                         int tempCounter = 1;
                         for (Account account : person.getAccounts()) {
                             // естесвенно я понимаю, что можно вывести больше информации,
                             // просто это займёт больше аналогичных строк
-                            System.out.printf("%d. id: %d; balance: %f%n", tempCounter++, account.id, account.balance);
+                            System.out.printf("%d. id: %d; balance: %f%n", tempCounter++, account.getId(), account.getBalance());
                         }
                     }
                 }
@@ -232,10 +232,10 @@ public class Program {
                 String name = new Scanner(System.in).nextLine();
                 String id = new Scanner(System.in).nextLine();
                 for (Person person : people) {
-                    if ((person.name + " " + person.surname).equals(name)) {
+                    if ((person.getName() + " " + person.getSurname()).equals(name)) {
                         for (Account account : person.getAccounts()) {
-                            if (String.valueOf(account.id).equals(id)) {
-                                System.out.printf("Your balance: %f%n", account.balance);
+                            if (String.valueOf(account.getId()).equals(id)) {
+                                System.out.printf("Your balance: %f%n", account.getBalance());
                                 break;
                             }
                         }
@@ -253,14 +253,14 @@ public class Program {
                 String name = new Scanner(System.in).nextLine();
                 String id = new Scanner(System.in).nextLine();
                 for (Person person : people) {
-                    if ((person.name + " " + person.surname).equals(name)) {
+                    if ((person.getName() + " " + person.getSurname()).equals(name)) {
                         for (Account account : person.getAccounts()) {
-                            if (String.valueOf(account.id).equals(id)) {
+                            if (String.valueOf(account.getId()).equals(id)) {
                                 for (Bank bank : centralBank.getBanks()) {
                                     if (bank.getClientsAccounts().contains(account)) {
                                         System.out.println("Type how much money do you want to withdraw:");
                                         bank.withdraw(account, new Scanner(System.in).nextDouble());
-                                        System.out.printf("Now your balance on this account: %f%n", account.balance);
+                                        System.out.printf("Now your balance on this account: %f%n", account.getBalance());
                                         break;
                                     }
                                 }
@@ -282,14 +282,14 @@ public class Program {
                 String name = new Scanner(System.in).nextLine();
                 String id = new Scanner(System.in).nextLine();
                 for (Person person : people) {
-                    if ((person.name + " " + person.surname).equals(name)) {
+                    if ((person.getName() + " " + person.getSurname()).equals(name)) {
                         for (Account account : person.getAccounts()) {
-                            if (String.valueOf(account.id).equals(id)) {
+                            if (String.valueOf(account.getId()).equals(id)) {
                                 for (Bank bank : centralBank.getBanks()) {
                                     if (bank.getClientsAccounts().contains(account)) {
                                         System.out.println("Type how much money do you want to replenish:");
                                         bank.replenishment(account, new Scanner(System.in).nextDouble());
-                                        System.out.printf("Now your balance on this account: %f%n", account.balance);
+                                        System.out.printf("Now your balance on this account: %f%n", account.getBalance());
                                         break;
                                     }
                                 }
@@ -311,16 +311,16 @@ public class Program {
                 String name = new Scanner(System.in).nextLine();
                 String id = new Scanner(System.in).nextLine();
                 for (Person person : people) {
-                    if ((person.name + " " + person.surname).equals(name)) {
+                    if ((person.getName() + " " + person.getSurname()).equals(name)) {
                         for (Account sender : person.getAccounts()) {
-                            if (String.valueOf(sender.id).equals(id)) {
+                            if (String.valueOf(sender.getId()).equals(id)) {
                                 for (Bank bank : centralBank.getBanks()) {
                                     if (bank.getClientsAccounts().contains(sender)) {
                                         System.out.println("Type the account id to which you want to transfer");
                                         String recipientAccountId = new Scanner(System.in).nextLine();
                                         for (Bank bank2 : centralBank.getBanks()) {
                                             for (Account recipient : bank2.getClientsAccounts()) {
-                                                if (String.valueOf(recipient.id).equals(recipientAccountId)) {
+                                                if (String.valueOf(recipient.getId()).equals(recipientAccountId)) {
                                                     System.out.println(
                                                             "Type how much money do you want to transfer:");
                                                     double amount = new Scanner(System.in).nextDouble();
@@ -328,8 +328,8 @@ public class Program {
                                                             sender,
                                                             recipient,
                                                             amount);
-                                                    System.out.printf("Now your balance on this account: %f%n", sender.balance);
-                                                    System.out.printf("And your recipient balance now is: %f%n", recipient.balance);
+                                                    System.out.printf("Now your balance on this account: %f%n", sender.getBalance());
+                                                    System.out.printf("And your recipient balance now is: %f%n", recipient.getBalance());
                                                     break;
                                                 }
                                             }
@@ -356,19 +356,19 @@ public class Program {
                 String name = new Scanner(System.in).nextLine();
                 String id = new Scanner(System.in).nextLine();
                 for (Person person : people) {
-                    String tempName = person.name + " " + person.surname;
+                    String tempName = person.getName() + " " + person.getSurname();
                     if (!tempName.equals(name)) {
                         continue;
                     }
                     for (Account account : person.getAccounts()) {
-                        if (String.valueOf(account.id).equals(id)) {
+                        if (String.valueOf(account.getId()).equals(id)) {
                             for (Bank bank : centralBank.getBanks()) {
                                 if (bank.getClientsAccounts().contains(account)) {
                                     System.out.println("Type the transaction id:");
                                     for (Transaction transaction : account.getTransactions()) {
-                                        if (String.valueOf(transaction.id).equals(new Scanner(System.in).nextLine())) {
+                                        if (String.valueOf(transaction.getId()).equals(new Scanner(System.in).nextLine())) {
                                             bank.cancellation(account, transaction);
-                                            System.out.printf("Now your balance on this account: %f%n", account.balance);
+                                            System.out.printf("Now your balance on this account: %f%n", account.getBalance());
                                             break;
                                         }
                                     }
@@ -393,19 +393,19 @@ public class Program {
                 String name = new Scanner(System.in).nextLine();
                 String id = new Scanner(System.in).nextLine();
                 for (Person person : people) {
-                    if ((person.name + " " + person.surname).equals(name)) {
+                    if ((person.getName() + " " + person.getSurname()).equals(name)) {
                         for (Account account : person.getAccounts()) {
-                            if (String.valueOf(account.id).equals(id)) {
+                            if (String.valueOf(account.getId()).equals(id)) {
                                 if (centralBank.getBanks().stream().anyMatch(bank -> bank.getClientsAccounts().contains(account))) {
                                     for (Transaction transaction : account.getTransactions()) {
-                                        System.out.printf("Transaction id: %d%n", transaction.id);
-                                        System.out.printf("Recipient id: %d%n", transaction.recipient.id);
-                                        if (transaction.sender != null) {
-                                            System.out.printf("Sender id: %d%n", transaction.sender.id);
+                                        System.out.printf("Transaction id: %d%n", transaction.getId());
+                                        System.out.printf("Recipient id: %d%n", transaction.getRecipient().getId());
+                                        if (transaction.getSender() != null) {
+                                            System.out.printf("Sender id: %d%n", transaction.getSender().getId());
                                         }
 
-                                        System.out.printf("Transaction amount: %f%n", transaction.amount);
-                                        System.out.printf("Transaction time: %s%n", transaction.transactionTime);
+                                        System.out.printf("Transaction amount: %f%n", transaction.getAmount());
+                                        System.out.printf("Transaction time: %s%n", transaction.getTransactionTime());
                                         System.out.println();
                                     }
                                 }
