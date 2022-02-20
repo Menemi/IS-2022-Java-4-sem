@@ -89,17 +89,18 @@ public class BanksTest {
 
         Account putinDebit = tinkoff.сreateDebitAccount(putin, 100000);
         Account bidenDebit = tinkoff.сreateDebitAccount(biden, 200000);
-        Account putinCredit = tinkoff.сreateCreditAccount(putin, 100000);
+        Account putinCredit = tinkoff.сreateCreditAccount(putin, 0);
         Account putinDeposit = tinkoff.сreateDepositAccount(putin, 100000);
         Account bidenDeposit = tinkoff.сreateDepositAccount(biden, 10000);
 
+        tinkoff.withdraw(putinCredit, 1000);
         LocalDate dateToRewind = LocalDate.of(2022, 3, 1);
         timeMachine.TimeRewind(centralBank, dateToRewind);
 
         assertEquals(putin.getAccounts().size(), 3);
         assertEquals(100190, putinDebit.getBalance());
         assertEquals(200380, bidenDebit.getBalance());
-        assertEquals(110000, putinCredit.getBalance());
+        assertEquals(-10000, putinCredit.getBalance());
         assertEquals(100380, putinDeposit.getBalance());
         assertEquals(10019, bidenDeposit.getBalance());
     }

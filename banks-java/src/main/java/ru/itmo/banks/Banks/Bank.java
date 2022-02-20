@@ -187,7 +187,7 @@ public class Bank implements ChangesNotifyObservable {
                     account.getAccountUnblockingPeriod()));
         }
 
-        Transaction transaction = new TransactionReplenishment(null, account, amount, account.getTransactionIdCounter());
+        Transaction transaction = new TransactionWithdraw(null, account, amount, account.getTransactionIdCounter());
         account.setTransactionIdCounter(account.getTransactionIdCounter() + 1);
         account.newTransaction(transaction);
 

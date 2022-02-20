@@ -147,7 +147,7 @@ public class Account implements ChangesNotifyObserver {
                 return;
             }
 
-            while (checkDate.equals(startDate)) {
+            while (!checkDate.equals(startDate)) {
                 summaryCommission += commission;
 
                 startDate = startDate.plusDays(1);
