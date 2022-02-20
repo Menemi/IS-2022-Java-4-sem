@@ -36,7 +36,7 @@ public class BanksTest {
                 10000,
                 10000,
                 1000,
-                LocalDate.of(2022, 1, 1));
+                LocalDate.now());
 
         ClientBuilder clientBuilder = new Client();
 
@@ -76,7 +76,7 @@ public class BanksTest {
                 10000,
                 10000,
                 1000,
-                LocalDate.of(2022, 1, 1));
+                LocalDate.now());
 
         ClientBuilder clientBuilder = new Client();
 
@@ -119,7 +119,7 @@ public class BanksTest {
                 10000,
                 10000,
                 1000,
-                LocalDate.of(2022, 1, 1));
+                LocalDate.now());
 
         ClientBuilder clientBuilder = new Client();
 
