@@ -25,10 +25,16 @@ public class Program {
     static CentralBank centralBank = CentralBank.getInstance("Central Bank");
     static List<Person> people = new ArrayList<>();
 
+    static void output(List outputElements) {
+        for (Object element : outputElements) {
+            System.out.println(element.toString());
+        }
+    }
+
     // краткий гайд по работе с тестами: когда предлагаются на выбор функции, всегда можно писать либо номер
     // функции, либо её название. В примере я оставил именно названия функций, чтоб можно было легко
     // ориентироваться при проверке
-    // также я оставил комментарии в виде туду, расставив их перед каждой функцией с соответсвующим названием,
+    // также я оставил комментарии в виде туду, расставив их перед каждой функцией с соответствующим названием,
     // так что при проверке тоже можно легко и быстро свапаться между функциями
     static void choosingTypeOfUser() throws BanksException {
         System.out.println("Type your user type 'bank manager / client' (you can type 'choose again' to " +
