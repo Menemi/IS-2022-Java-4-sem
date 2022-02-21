@@ -22,7 +22,7 @@ public class BanksTest {
     private final CentralBank centralBank = CentralBank.getInstance("Central Bank");
 
     @Test
-    public void WithdrawAndRemittanceLimitTest() throws BanksException {
+    public void withdrawAndRemittanceLimitTest() throws BanksException {
         List<PercentOfTheAmount> depositPercentsList = new ArrayList<>();
         depositPercentsList.add(new PercentOfTheAmount(0, 50000, 3));
         depositPercentsList.add(new PercentOfTheAmount(50000.01, 100000, 6));
@@ -61,7 +61,7 @@ public class BanksTest {
     }
 
     @Test
-    public void TimeMachineTest() throws BanksException {
+    public void timeMachineTest() throws BanksException {
 
         List<PercentOfTheAmount> depositPercentsList = new ArrayList<>();
         depositPercentsList.add(new PercentOfTheAmount(0, 50000, 3));
@@ -106,7 +106,7 @@ public class BanksTest {
     }
 
     @Test
-    public void NotifiesTest() throws BanksException {
+    public void notifiesTest() throws BanksException {
         List<PercentOfTheAmount> depositPercentsList = new ArrayList<>();
         depositPercentsList.add(new PercentOfTheAmount(0, 50000, 3));
         depositPercentsList.add(new PercentOfTheAmount(50000.01, 100000, 6));
