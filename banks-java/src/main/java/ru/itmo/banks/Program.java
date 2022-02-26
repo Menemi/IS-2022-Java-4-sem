@@ -1,14 +1,14 @@
 package ru.itmo.banks;
 
-import ru.itmo.banks.Accounts.Account;
-import ru.itmo.banks.Banks.Bank;
-import ru.itmo.banks.Banks.CentralBank;
-import ru.itmo.banks.Clients.Client;
-import ru.itmo.banks.Clients.ClientBuilder;
-import ru.itmo.banks.Clients.Passport;
-import ru.itmo.banks.Clients.Person;
-import ru.itmo.banks.Exceptions.BanksException;
-import ru.itmo.banks.Transactions.Transaction;
+import ru.itmo.banks.account.Account;
+import ru.itmo.banks.bank.Bank;
+import ru.itmo.banks.bank.CentralBank;
+import ru.itmo.banks.clients.Client;
+import ru.itmo.banks.clients.ClientBuilder;
+import ru.itmo.banks.clients.Passport;
+import ru.itmo.banks.clients.Person;
+import ru.itmo.banks.exception.BanksException;
+import ru.itmo.banks.transaction.Transaction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Program {
-    public static void main(String[] args) throws BanksException {
+    public static void main(String[] args) {
         choosingTypeOfUser();
     }
 
@@ -36,7 +36,7 @@ public class Program {
     // ориентироваться при проверке
     // также я оставил комментарии в виде туду, расставив их перед каждой функцией с соответствующим названием,
     // так что при проверке тоже можно легко и быстро свапаться между функциями
-    static void choosingTypeOfUser() throws BanksException {
+    static void choosingTypeOfUser() {
         System.out.println("Type your user type 'bank manager / client' (you can type 'choose again' to " +
                 "choose again or 'stop' to end the program):");
         chooseTypeOfUser = new Scanner(System.in).nextLine();
@@ -46,7 +46,7 @@ public class Program {
 
     // да, я понимаю, что свитч-кейс - круто, но пощадите, пожалуйста...
     // я правда знаю, как с ним работать
-    static void bankManager() throws BanksException {
+    static void bankManager() {
         while (true) {
             // todo: BANK MANAGER
             System.out.println("You can type:");
@@ -119,7 +119,7 @@ public class Program {
                         new Scanner(System.in).nextInt(),
                         new Scanner(System.in).nextInt(),
                         new Scanner(System.in).nextInt());
-                timeMachine.TimeRewind(centralBank, dateToRewind);
+                timeMachine.timeRewind(centralBank, dateToRewind);
 
                 choosingTypeOfUser();
                 return;
@@ -136,7 +136,7 @@ public class Program {
         }
     }
 
-    static void client() throws BanksException {
+    static void client() {
         while (true) {
             // todo: CLIENT
             System.out.println("You can type:");
@@ -438,7 +438,7 @@ public class Program {
         }
     }
 
-    static void usersTypeLogic() throws BanksException {
+    static void usersTypeLogic() {
         if (chooseTypeOfUser.equalsIgnoreCase("bank manager") || chooseTypeOfUser.equals("1")) {
             bankManager();
         } else if (chooseTypeOfUser.equalsIgnoreCase("client") || chooseTypeOfUser.equals("2")) {
