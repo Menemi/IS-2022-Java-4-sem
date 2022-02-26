@@ -7,11 +7,11 @@ import java.time.LocalDate;
 public abstract class Transaction {
     private boolean statusCanceled;
 
-    protected int id;
-    protected double amount;
-    protected Account sender;
-    protected Account recipient;
-    protected LocalDate transactionTime;
+    private int id;
+    private double amount;
+    private Account sender;
+    private Account recipient;
+    private LocalDate transactionTime;
 
     public Transaction(int id, Account sender, Account recipient, double amount) {
         this.id = id;

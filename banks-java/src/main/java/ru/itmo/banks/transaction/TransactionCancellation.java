@@ -4,21 +4,21 @@ import ru.itmo.banks.exception.BanksException;
 
 public class TransactionCancellation extends Transaction {
     public TransactionCancellation(Transaction transaction) throws BanksException {
-        super(transaction.id, transaction.sender, transaction.recipient, transaction.amount);
+        super(transaction.getId(), transaction.getSender(), transaction.getRecipient(), transaction.getAmount());
         if (transaction.isCanceled()) {
             throw new BanksException("This transaction has already been canceled");
         }
 
-        if (transaction.sender != null) {
-            transaction.recipient.reduceMoney(transaction.amount);
-            transaction.sender.increaseMoney(transaction.amount);
+        if (transaction.getSender() != null) {
+            transaction.getRecipient().reduceMoney(transaction.getAmount());
+            transaction.getSender().increaseMoney(transaction.getAmount());
             return;
         }
 
-        if (transaction.amount > 0) {
-            transaction.recipient.increaseMoney(transaction.amount);
+        if (transaction.getAmount() > 0) {
+            transaction.getRecipient().increaseMoney(transaction.getAmount());
         } else {
-            transaction.recipient.reduceMoney(transaction.amount);
+            transaction.getRecipient().reduceMoney(transaction.getAmount());
         }
 
         transaction.cancle();
