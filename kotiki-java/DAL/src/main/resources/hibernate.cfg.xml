@@ -3,15 +3,6 @@
         "-//Hibernate/Hibernate Configuration DTD//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-<!--    <session-factory>-->
-<!--        <property name="connection.url"/>-->
-<!--        <property name="connection.driver_class"/>-->
-<!--         <property name="postgres"/>-->
-<!--         <property name="1753"/>-->
-
-<!--        &lt;!&ndash; DB schema will be updated if needed &ndash;&gt;-->
-<!--        &lt;!&ndash; <property name="hibernate.hbm2ddl.auto">update</property> &ndash;&gt;-->
-<!--    </session-factory>-->
     <session-factory>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
