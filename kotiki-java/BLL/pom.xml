@@ -3,37 +3,41 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>kotiki-java</artifactId>
-        <groupId>org.example</groupId>
+        <groupId>ru.itmo.kotiki</groupId>
+        <artifactId>maven</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>BLL</artifactId>
+    <artifactId>bll</artifactId>
+
     <dependencies>
         <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>DAL</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>ru.itmo.kotiki</groupId>
+            <artifactId>dal</artifactId>
+            <version>${ru.itmo.kotiki.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.2.4</version>
+            <version>${org.mockito.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
     </dependencies>
     <properties>
+        <ru.itmo.kotiki.version>1.0-SNAPSHOT</ru.itmo.kotiki.version>
+        <org.mockito.version>3.2.4</org.mockito.version>
+        <junit.version>4.12</junit.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
