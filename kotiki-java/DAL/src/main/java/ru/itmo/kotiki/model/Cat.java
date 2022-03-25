@@ -19,7 +19,11 @@ public class Cat {
 
     @Column(name = "birth_date")
     private Date birthDate;
-    private Type type;
+
+    @Enumerated(value = EnumType.STRING)
+    private Breed breed;
+
+    @Enumerated(value = EnumType.STRING)
     private Color color;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,10 +33,10 @@ public class Cat {
     public Cat() {
     }
 
-    public Cat(String name, Date birthDate, Type type, Color color) {
+    public Cat(String name, Date birthDate, Breed breed, Color color) {
         this.name = name;
         this.birthDate = birthDate;
-        this.type = type;
+        this.breed = breed;
         this.color = color;
         friends = new ArrayList<>();
     }
@@ -53,8 +57,8 @@ public class Cat {
         return birthDate;
     }
 
-    public Type getType() {
-        return type;
+    public Breed getType() {
+        return breed;
     }
 
     public Color getColor() {

@@ -5,7 +5,7 @@ import org.junit.*;
 import ru.itmo.kotiki.model.Cat;
 import ru.itmo.kotiki.model.Color;
 import ru.itmo.kotiki.model.Owner;
-import ru.itmo.kotiki.model.Type;
+import ru.itmo.kotiki.model.Breed;
 
 import java.sql.Date;
 
@@ -28,7 +28,7 @@ public class KotikiTest {
     @Test
     public void findTest() {
         Owner denchik = new Owner("Gooolden Denchik", Date.valueOf("2002-10-12"));
-        Cat kotyara = new Cat("Kotyara", Date.valueOf("2003-11-13"), Type.Lesbian, Color.Black);
+        Cat kotyara = new Cat("Kotyara", Date.valueOf("2003-11-13"), Breed.RAGDOLL, Color.BLACK);
         denchik.addPet(kotyara);
 
         when(ownerService.findOwner(1)).thenReturn(denchik);
@@ -40,7 +40,7 @@ public class KotikiTest {
     @Test
     public void getTest() {
         Owner denchik = new Owner("Gooolden Denchik", Date.valueOf("2002-10-12"));
-        Cat kisik = new Cat("Kisik", Date.valueOf("2003-11-13"), Type.Asian, Color.Red);
+        Cat kisik = new Cat("Kisik", Date.valueOf("2003-11-13"), Breed.SIBERIAN, Color.RED);
         denchik.addPet(kisik);
 
         when(ownerService.findCat(1)).thenReturn(kisik);
@@ -50,8 +50,8 @@ public class KotikiTest {
     @Test
     public void deleteTest() {
         Owner denchik = new Owner("Gooolden Denchik", Date.valueOf("2002-10-12"));
-        Cat kisik = new Cat("Kisik", Date.valueOf("2003-11-13"), Type.Hentai, Color.Red);
-        Cat kotyara = new Cat("Kotyara", Date.valueOf("2003-11-13"), Type.Massage, Color.White);
+        Cat kisik = new Cat("Kisik", Date.valueOf("2003-11-13"), Breed.SPHINX, Color.RED);
+        Cat kotyara = new Cat("Kotyara", Date.valueOf("2003-11-13"), Breed.SIBERIAN, Color.WHITE);
         denchik.addPet(kisik);
         denchik.addPet(kotyara);
 
