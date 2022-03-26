@@ -15,15 +15,19 @@ public class Cat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name")
     private String name;
 
     @Column(name = "birth_date")
     private Date birthDate;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "breed")
     private Breed breed;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "color")
     private Color color;
 
     @ManyToOne(fetch = FetchType.LAZY)
