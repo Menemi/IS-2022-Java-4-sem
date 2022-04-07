@@ -1,39 +1,45 @@
 package ru.itmo.kotiki;
 
-import ru.itmo.kotiki.dao.CatDao;
-import ru.itmo.kotiki.dao.CatDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.itmo.kotiki.model.Cat;
 import ru.itmo.kotiki.model.Owner;
+import ru.itmo.kotiki.repository.CatRepository;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class CatService {
-    private final CatDao catDao = new CatDaoImpl();
+    @Autowired
+    private CatRepository catRepository;
 
-    public CatService() {
-    }
+//    public CatService(CatRepository catRepository) {
+//        this.catRepository = catRepository;
+//    }
 
-    public Cat findCat(int id) {
-        return catDao.findById(id);
+    public Optional<Cat> findCat(long id) {
+        return catRepository.findById(id);
     }
 
     public void saveCat(Cat cat) {
-        catDao.save(cat);
+        catRepository.save(cat);
     }
 
-    public void updateCat(Cat cat) {
-        catDao.update(cat);
-    }
+//    public void updateCat(Cat cat) {
+//        catRepository.update(cat);
+//    }
 
     public void deleteCat(Cat cat) {
-        catDao.delete(cat);
+        catRepository.delete(cat);
     }
 
-    public Owner findOwner(int id) {
-        return catDao.findOwnerById(id);
+    public Optional<Owner> findOwner(long id) {
+        return catRepository.findOwnerById(id);
     }
 
     public List<Cat> findAllCats() {
-        return catDao.findAll();
+        return catRepository.findAll();
     }
 }

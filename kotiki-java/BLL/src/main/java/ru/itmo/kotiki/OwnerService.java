@@ -1,36 +1,45 @@
 package ru.itmo.kotiki;
 
-import ru.itmo.kotiki.dao.OwnerDao;
-import ru.itmo.kotiki.dao.OwnerDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.itmo.kotiki.model.Cat;
 import ru.itmo.kotiki.model.Owner;
+import ru.itmo.kotiki.repository.OwnerRepository;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class OwnerService {
-    private final OwnerDao ownerDao = new OwnerDaoImpl();
+    @Autowired
+    private OwnerRepository ownerRepository;
 
-    public OwnerService() {
-    }
+//    public OwnerService(OwnerRepository ownerRepository) {
+//        this.ownerRepository = ownerRepository;
+//    }
 
-    public Owner findOwner(int id) {
-        return ownerDao.findById(id);
+    // todo: точно также, как тут
+    public Optional<Owner> findOwner(long id) {
+        return ownerRepository.findById(id);
     }
 
     public void saveOwner(Owner owner) {
-        ownerDao.save(owner);
+        ownerRepository.save(owner);
     }
 
-    public void updateOwner(Owner owner) {
-        ownerDao.update(owner);
-    }
+    // todo: == save
+//    public void updateOwner(Owner owner) {
+//        ownerRepository.update(owner);
+//    }
 
     public void deleteOwner(Owner owner) {
-        ownerDao.delete(owner);
+        ownerRepository.delete(owner);
     }
 
-    public Cat findCat(int id) {
-        return ownerDao.findCatById(id);
+    // todo: пофиксить хуйню
+    public Optional<Cat> findCat(long id) {
+        return ownerRepository.findCatById(id);
     }
 
     public void removeCat(Owner owner, Cat cat) {
@@ -38,6 +47,6 @@ public class OwnerService {
     }
 
     public List<Owner> findAllOwners() {
-        return ownerDao.findAll();
+        return ownerRepository.findAll();
     }
 }
