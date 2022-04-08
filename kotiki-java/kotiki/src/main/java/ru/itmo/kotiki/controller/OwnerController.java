@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.itmo.kotiki.Generator;
 import ru.itmo.kotiki.model.Owner;
 import ru.itmo.kotiki.model.WebOwner;
-import ru.itmo.kotiki.service.OwnerService;
+import ru.itmo.kotiki.service.OwnerServiceImpl;
 
 import java.util.List;
 
@@ -15,35 +15,35 @@ import java.util.List;
 @RequestMapping("/owners")
 public class OwnerController {
     @Autowired
-    private OwnerService ownerService;
+    private OwnerServiceImpl ownerService;
 
     private final Generator generator = new Generator();
 
-    @GetMapping("/get/owner{id}")
+    @GetMapping("{id}/")
     public ResponseEntity<?> getOwnerById(@PathVariable long id) {
         return new ResponseEntity<>(ownerService.findOwner(id), HttpStatus.OK);
     }
 
-    @GetMapping("/get/owners")
+    @GetMapping("/")
     public ResponseEntity<List<Owner>> getOwners() {
         return new ResponseEntity<>(ownerService.findAllOwners(), HttpStatus.OK);
     }
 
-    @PostMapping("/create/owner{id}")
+    @PostMapping("/")
     public ResponseEntity<?> createOwner(@RequestBody WebOwner webOwner) {
         Owner owner = generator.generateOwner(webOwner);
         ownerService.saveOwner(owner);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/put/owner{id}")
+    @PutMapping("{id}/")
     public ResponseEntity<?> updateOwner(@RequestBody WebOwner webOwner) {
         Owner owner = generator.generateOwner(webOwner);
         ownerService.saveOwner(owner);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/owner{id}")
+    @DeleteMapping("{id}/")
     public ResponseEntity<?> deleteOwner(@RequestBody WebOwner webOwner) {
         Owner owner = generator.generateOwner(webOwner);
         ownerService.deleteOwner(owner);

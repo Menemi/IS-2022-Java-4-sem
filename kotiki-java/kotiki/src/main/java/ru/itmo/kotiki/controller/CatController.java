@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.itmo.kotiki.Generator;
 import ru.itmo.kotiki.model.WebCat;
-import ru.itmo.kotiki.service.CatService;
+import ru.itmo.kotiki.service.CatServiceImpl;
 import ru.itmo.kotiki.model.Cat;
 
 import java.util.List;
@@ -21,37 +21,37 @@ public class CatController {
     // delete - удаляет
 
     @Autowired
-    private CatService catService;
+    private CatServiceImpl catService;
 
     private final Generator generator = new Generator();
 
-    @GetMapping("{id}")
+    @GetMapping("{id}/")
     public ResponseEntity<?> getCatById(@PathVariable long id) {
         return new ResponseEntity<>(catService.findCat(id), HttpStatus.OK);
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public List<Cat> getCats() {
         var cats = catService.findAllCats();
         return catService.findAllCats();
 //        return new ResponseEntity<>(catService.findAllCats(), HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping("/")
     public ResponseEntity<?> createCat(@RequestBody WebCat webCat) {
         Cat cat = generator.generateCat(webCat);
         catService.saveCat(cat);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{id}/")
     public ResponseEntity<?> updateCat(@RequestBody WebCat webCat) {
         Cat cat = generator.generateCat(webCat);
         catService.saveCat(cat);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id}/")
     public ResponseEntity<?> deleteCat(@RequestBody WebCat webCat) {
         Cat cat = generator.generateCat(webCat);
         catService.deleteCat(cat);
