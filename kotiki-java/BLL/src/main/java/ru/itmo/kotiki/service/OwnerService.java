@@ -2,9 +2,9 @@ package ru.itmo.kotiki.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.itmo.kotiki.dao.OwnerDao;
 import ru.itmo.kotiki.model.Cat;
 import ru.itmo.kotiki.model.Owner;
-import ru.itmo.kotiki.repository.OwnerRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,18 +12,18 @@ import java.util.Optional;
 @Service
 public class OwnerService {
     @Autowired
-    private OwnerRepository ownerRepository;
+    private OwnerDao ownerDao;
 
     public Optional<Owner> findOwner(long id) {
-        return ownerRepository.findById(id);
+        return ownerDao.findById(id);
     }
 
     public void saveOwner(Owner owner) {
-        ownerRepository.save(owner);
+        ownerDao.save(owner);
     }
 
     public void deleteOwner(Owner owner) {
-        ownerRepository.delete(owner);
+        ownerDao.delete(owner);
     }
 
     public void removeCat(Owner owner, Cat cat) {
@@ -31,6 +31,6 @@ public class OwnerService {
     }
 
     public List<Owner> findAllOwners() {
-        return ownerRepository.findAll();
+        return ownerDao.findAll();
     }
 }
