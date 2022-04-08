@@ -25,31 +25,33 @@ public class CatController {
 
     private final Generator generator = new Generator();
 
-    @GetMapping("/get/cat{id}")
+    @GetMapping("{id}")
     public ResponseEntity<?> getCatById(@PathVariable long id) {
         return new ResponseEntity<>(catService.findCat(id), HttpStatus.OK);
     }
 
-    @GetMapping("/get/cats")
-    public ResponseEntity<List<Cat>> getCats() {
-        return new ResponseEntity<>(catService.findAllCats(), HttpStatus.OK);
+    @GetMapping("")
+    public List<Cat> getCats() {
+        var cats = catService.findAllCats();
+        return catService.findAllCats();
+//        return new ResponseEntity<>(catService.findAllCats(), HttpStatus.OK);
     }
 
-    @PostMapping("/create/cat{id}")
+    @PostMapping("")
     public ResponseEntity<?> createCat(@RequestBody WebCat webCat) {
         Cat cat = generator.generateCat(webCat);
         catService.saveCat(cat);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/put/cat{id}")
+    @PutMapping("{id}")
     public ResponseEntity<?> updateCat(@RequestBody WebCat webCat) {
         Cat cat = generator.generateCat(webCat);
         catService.saveCat(cat);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/cat{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deleteCat(@RequestBody WebCat webCat) {
         Cat cat = generator.generateCat(webCat);
         catService.deleteCat(cat);

@@ -11,6 +11,12 @@ import java.util.List;
 @Table(name = "cats")
 public class Cat {
     @OneToMany(targetEntity = Cat.class)
+//    @JoinTable(
+//            name = "cats_friends",
+//            joinColumns = {@JoinColumn(name = "cat_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
+//    )
+    @JoinColumn(name = "friend_id")
     private List<Cat> friends;
 
     @Id

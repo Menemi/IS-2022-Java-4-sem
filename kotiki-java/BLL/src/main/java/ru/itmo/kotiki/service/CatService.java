@@ -1,6 +1,7 @@
 package ru.itmo.kotiki.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import ru.itmo.kotiki.dao.CatDao;
 import ru.itmo.kotiki.model.Cat;
@@ -9,9 +10,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@ComponentScan({"ru.itmo.kotiki.dao"})
 public class CatService {
+    private final CatDao catDao;
+
     @Autowired
-    private CatDao catDao;
+    public CatService(CatDao catDao){
+        this.catDao = catDao;
+    }
 
     public Optional<Cat> findCat(long id) {
         return catDao.findById(id);
