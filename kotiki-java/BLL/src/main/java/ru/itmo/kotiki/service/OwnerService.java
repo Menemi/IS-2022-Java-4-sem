@@ -1,7 +1,6 @@
-package ru.itmo.kotiki;
+package ru.itmo.kotiki.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.itmo.kotiki.model.Cat;
 import ru.itmo.kotiki.model.Owner;
@@ -15,11 +14,6 @@ public class OwnerService {
     @Autowired
     private OwnerRepository ownerRepository;
 
-//    public OwnerService(OwnerRepository ownerRepository) {
-//        this.ownerRepository = ownerRepository;
-//    }
-
-    // todo: точно также, как тут
     public Optional<Owner> findOwner(long id) {
         return ownerRepository.findById(id);
     }
@@ -28,18 +22,8 @@ public class OwnerService {
         ownerRepository.save(owner);
     }
 
-    // todo: == save
-//    public void updateOwner(Owner owner) {
-//        ownerRepository.update(owner);
-//    }
-
     public void deleteOwner(Owner owner) {
         ownerRepository.delete(owner);
-    }
-
-    // todo: пофиксить хуйню
-    public Optional<Cat> findCat(long id) {
-        return ownerRepository.findCatById(id);
     }
 
     public void removeCat(Owner owner, Cat cat) {

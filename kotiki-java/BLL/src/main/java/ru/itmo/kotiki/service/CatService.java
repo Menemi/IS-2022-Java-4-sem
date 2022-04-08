@@ -1,4 +1,4 @@
-package ru.itmo.kotiki;
+package ru.itmo.kotiki.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,10 +15,6 @@ public class CatService {
     @Autowired
     private CatRepository catRepository;
 
-//    public CatService(CatRepository catRepository) {
-//        this.catRepository = catRepository;
-//    }
-
     public Optional<Cat> findCat(long id) {
         return catRepository.findById(id);
     }
@@ -27,17 +23,10 @@ public class CatService {
         catRepository.save(cat);
     }
 
-//    public void updateCat(Cat cat) {
-//        catRepository.update(cat);
-//    }
-
     public void deleteCat(Cat cat) {
         catRepository.delete(cat);
     }
 
-    public Optional<Owner> findOwner(long id) {
-        return catRepository.findOwnerById(id);
-    }
 
     public List<Cat> findAllCats() {
         return catRepository.findAll();
