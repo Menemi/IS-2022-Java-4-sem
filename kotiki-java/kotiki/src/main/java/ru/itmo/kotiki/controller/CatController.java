@@ -1,16 +1,18 @@
 package ru.itmo.kotiki.controller;
 
-import org.hibernate.type.CharArrayType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.itmo.kotiki.CatService;
+import ru.itmo.kotiki.Generator;
+import ru.itmo.kotiki.model.WebCat;
+import ru.itmo.kotiki.service.CatService;
 import ru.itmo.kotiki.model.Cat;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
+@RequestMapping("/cats")
 public class CatController {
     // http requests:
     // get - получает,
@@ -21,18 +23,36 @@ public class CatController {
     @Autowired
     private CatService catService;
 
-//    public CatController(CatService catService) {
-//        this.catService = catService;
-//    }
+    private final Generator generator = new Generator();
 
-    @PostMapping("/api/kotiki/new")
-    public ResponseEntity<?> createCat(@RequestBody Cat cat) {
+    @GetMapping("/get/cat{id}")
+    public ResponseEntity<?> getCatById(@PathVariable long id) {
+        return new ResponseEntity<>(catService.findCat(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/cats")
+    public ResponseEntity<List<Cat>> getCats() {
+        return new ResponseEntity<>(catService.findAllCats(), HttpStatus.OK);
+    }
+
+    @PostMapping("/create/cat{id}")
+    public ResponseEntity<?> createCat(@RequestBody WebCat webCat) {
+        Cat cat = generator.generateCat(webCat);
         catService.saveCat(cat);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/api/test/{str}")
-    public ResponseEntity<?> test(@PathVariable String str) {
-        return new ResponseEntity<>(Map.of("String", str), HttpStatus.OK);
+    @PutMapping("/put/cat{id}")
+    public ResponseEntity<?> updateCat(@RequestBody WebCat webCat) {
+        Cat cat = generator.generateCat(webCat);
+        catService.saveCat(cat);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/cat{id}")
+    public ResponseEntity<?> deleteCat(@RequestBody WebCat webCat) {
+        Cat cat = generator.generateCat(webCat);
+        catService.deleteCat(cat);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
