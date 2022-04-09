@@ -9,6 +9,7 @@ import ru.itmo.kotiki.dto.CatDto;
 import ru.itmo.kotiki.service.CatServiceImpl;
 import ru.itmo.kotiki.model.Cat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,34 +26,37 @@ public class CatController {
 
     private final Generator generator = new Generator();
 
-    @GetMapping("{id}")
-    public ResponseEntity<?> getCatById(@PathVariable long id) {
-        return new ResponseEntity<>(catService.findCat(id), HttpStatus.OK);
+    @GetMapping("/get/{id}")
+    public CatDto getCatById(@PathVariable int id) {
+        return generator.catToCatDto(catService.findCat(id));
     }
 
-    @GetMapping("")
-    public List<Cat> getCats() {
-        return catService.findAllCats();
+    @GetMapping("/get")
+    public List<CatDto> getCats() {
+        List<CatDto> catsDto = new ArrayList<>();
+        for (Cat cat : catService.findAllCats()) {
+            catsDto.add(generator.catToCatDto(cat));
+        }
+
+        return catsDto;
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<?> createCat(@RequestBody CatDto catDto) {
-        Cat cat = generator.generateCat(catDto);
+        Cat cat = generator.dtoCatToCat(catDto);
         catService.saveCat(cat);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/update{id}")
     public ResponseEntity<?> updateCat(@RequestBody CatDto catDto) {
-        Cat cat = generator.generateCat(catDto);
+        Cat cat = generator.dtoCatToCat(catDto);
         catService.saveCat(cat);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteCat(@RequestBody CatDto catDto) {
-        Cat cat = generator.generateCat(catDto);
-        catService.deleteCat(cat);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/delete/{id}")
+    public void deleteCat(@PathVariable int id) {
+        catService.deleteCat(catService.findCat(id));
     }
 }

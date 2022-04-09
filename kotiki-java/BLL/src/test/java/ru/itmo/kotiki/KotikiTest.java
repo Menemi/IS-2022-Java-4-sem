@@ -10,7 +10,6 @@ import ru.itmo.kotiki.service.CatServiceImpl;
 import ru.itmo.kotiki.service.OwnerServiceImpl;
 
 import java.sql.Date;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -33,9 +32,9 @@ public class KotikiTest {
         Cat kotyara = new Cat("Kotyara", Date.valueOf("2003-11-13"), Breed.RAGDOLL, Color.BLACK);
         denchik.addPet(kotyara);
 
-        when(ownerService.findOwner(1)).thenReturn(Optional.of(denchik));
-        when(catService.findCat(1)).thenReturn(Optional.of(kotyara));
-        assertEquals(Optional.of(denchik), ownerService.findOwner(1));
-        assertEquals(Optional.of(kotyara), catService.findCat(1));
+        when(ownerService.findOwner(1)).thenReturn(denchik);
+        when(catService.findCat(1)).thenReturn(kotyara);
+        assertEquals(denchik, ownerService.findOwner(1));
+        assertEquals(kotyara, catService.findCat(1));
     }
 }

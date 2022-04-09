@@ -6,7 +6,6 @@ import ru.itmo.kotiki.dao.CatDao;
 import ru.itmo.kotiki.model.Cat;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CatServiceImpl implements CatService {
@@ -17,8 +16,8 @@ public class CatServiceImpl implements CatService {
         this.catDao = catDao;
     }
 
-    public Optional<Cat> findCat(long id) {
-        return catDao.findById(id);
+    public Cat findCat(int id) {
+        return catDao.getById(id);
     }
 
     public void saveCat(Cat cat) {

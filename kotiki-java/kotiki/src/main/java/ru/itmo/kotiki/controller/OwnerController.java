@@ -9,6 +9,7 @@ import ru.itmo.kotiki.dto.OwnerDto;
 import ru.itmo.kotiki.model.Owner;
 import ru.itmo.kotiki.service.OwnerServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,34 +20,37 @@ public class OwnerController {
 
     private final Generator generator = new Generator();
 
-    @GetMapping("{id}")
-    public ResponseEntity<?> getOwnerById(@PathVariable long id) {
-        return new ResponseEntity<>(ownerService.findOwner(id), HttpStatus.OK);
+    @GetMapping("/get/{id}")
+    public OwnerDto getOwnerById(@PathVariable int id) {
+        return generator.ownerToOwnerDto(ownerService.findOwner(id));
     }
 
-    @GetMapping("")
-    public List<Owner> getOwners() {
-        return ownerService.findAllOwners();
+    @GetMapping("/get")
+    public List<OwnerDto> getOwners() {
+        List<OwnerDto> ownersDto = new ArrayList<>();
+        for (Owner owner : ownerService.findAllOwners()) {
+            ownersDto.add(generator.ownerToOwnerDto(owner));
+        }
+
+        return ownersDto;
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<?> createOwner(@RequestBody OwnerDto ownerDto) {
-        Owner owner = generator.generateOwner(ownerDto);
+        Owner owner = generator.dtoOwnerToOwner(ownerDto);
         ownerService.saveOwner(owner);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateOwner(@RequestBody OwnerDto ownerDto) {
-        Owner owner = generator.generateOwner(ownerDto);
+        Owner owner = generator.dtoOwnerToOwner(ownerDto);
         ownerService.saveOwner(owner);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteOwner(@RequestBody OwnerDto ownerDto) {
-        Owner owner = generator.generateOwner(ownerDto);
-        ownerService.deleteOwner(owner);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/delete/{id}")
+    public void deleteOwner(@PathVariable int id) {
+        ownerService.deleteOwner(ownerService.findOwner(id));
     }
 }

@@ -5,7 +5,8 @@ import ru.itmo.kotiki.model.Owner;
 import java.util.List;
 
 public interface OwnerService {
-    public void saveOwner(Owner owner);
-    public void deleteOwner(Owner owner);
-    public List<Owner> findAllOwners();
+    Owner findOwner(int id);
+    void saveOwner(Owner owner);
+    void deleteOwner(Owner owner);
+    List<Owner> findAllOwners();
 }

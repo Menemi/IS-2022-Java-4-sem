@@ -13,11 +13,19 @@ public class Generator {
     public Generator() {
     }
 
-    public Owner generateOwner(OwnerDto ownerDto) {
+    public Owner dtoOwnerToOwner(OwnerDto ownerDto) {
         return new Owner(ownerDto.getName(), ownerDto.getBirthDate());
     }
 
-    public Cat generateCat(CatDto catDto) {
+    public Cat dtoCatToCat(CatDto catDto) {
         return new Cat(catDto.getName(), catDto.getBirthDate(), catDto.getBreed(), catDto.getColor());
+    }
+
+    public CatDto catToCatDto(Cat cat) {
+        return new CatDto(cat.getName(), cat.getBirthDate(), cat.getBreed(), cat.getColor());
+    }
+
+    public OwnerDto ownerToOwnerDto(Owner owner) {
+        return new OwnerDto(owner.getName(), owner.getBirthDate());
     }
 }

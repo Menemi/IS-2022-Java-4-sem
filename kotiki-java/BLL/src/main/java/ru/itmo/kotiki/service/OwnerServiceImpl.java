@@ -6,7 +6,6 @@ import ru.itmo.kotiki.dao.OwnerDao;
 import ru.itmo.kotiki.model.Owner;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OwnerServiceImpl implements OwnerService{
@@ -17,8 +16,8 @@ public class OwnerServiceImpl implements OwnerService{
         this.ownerDao = ownerDao;
     }
 
-    public Optional<Owner> findOwner(long id) {
-        return ownerDao.findById(id);
+    public Owner findOwner(int id) {
+        return ownerDao.getById(id);
     }
 
     public void saveOwner(Owner owner) {

@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.itmo.kotiki.model.Owner;
 
 @Repository
-public interface OwnerDao extends JpaRepository<Owner, Long> {
+public interface OwnerDao extends JpaRepository<Owner, Integer> {
 }

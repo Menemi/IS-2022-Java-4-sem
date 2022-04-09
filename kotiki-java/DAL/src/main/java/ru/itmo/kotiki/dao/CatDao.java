@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.itmo.kotiki.model.Cat;
 
 @Repository
-public interface CatDao extends JpaRepository<Cat, Long> {
+public interface CatDao extends JpaRepository<Cat, Integer> {
 }

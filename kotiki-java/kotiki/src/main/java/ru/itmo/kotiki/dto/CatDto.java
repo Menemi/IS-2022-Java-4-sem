@@ -14,6 +14,13 @@ public class CatDto {
     public CatDto() {
     }
 
+    public CatDto(String name, Date birthDate, Breed breed, Color color) {
+        this.name = name;
+        this.birthDate = birthDate;
+        this.breed = breed;
+        this.color = color;
+    }
+
     public String getName() {
         return name;
     }
