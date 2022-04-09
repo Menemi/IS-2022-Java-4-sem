@@ -11,7 +11,6 @@ import java.util.List;
 @Table(name = "cats")
 public class Cat {
     @OneToMany(targetEntity = Cat.class)
-    @JoinColumn(name = "friend_id")
     private List<Cat> friends;
 
     @Id
