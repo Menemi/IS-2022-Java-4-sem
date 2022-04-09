@@ -8,7 +8,6 @@ import ru.itmo.kotiki.beans.CatBean;
 import ru.itmo.kotiki.service.CatServiceImpl;
 import ru.itmo.kotiki.model.Cat;
 
-import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -23,31 +22,31 @@ public class CatController {
     @Autowired
     private CatServiceImpl catService;
 
-    @GetMapping("{id}/")
+    @GetMapping("{id}")
     public ResponseEntity<?> getCatById(@PathVariable long id) {
         return new ResponseEntity<>(catService.findCat(id), HttpStatus.OK);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Cat> getCats() {
         return catService.findAllCats();
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> createCat(@RequestBody CatBean catBean) {
         Cat cat = new Cat(catBean.getName(), catBean.getBirthDate(), catBean.getBreed(), catBean.getColor());
         catService.saveCat(cat);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("{id}/")
+    @PutMapping("{id}")
     public ResponseEntity<?> updateCat(@RequestBody CatBean catBean) {
         Cat cat = new Cat(catBean.getName(), catBean.getBirthDate(), catBean.getBreed(), catBean.getColor());
         catService.saveCat(cat);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}/")
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deleteCat(@RequestBody CatBean catBean) {
         Cat cat = new Cat(catBean.getName(), catBean.getBirthDate(), catBean.getBreed(), catBean.getColor());
         catService.deleteCat(cat);

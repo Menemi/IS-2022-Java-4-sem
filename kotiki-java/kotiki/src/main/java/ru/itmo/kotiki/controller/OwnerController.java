@@ -16,31 +16,31 @@ public class OwnerController {
     @Autowired
     private OwnerServiceImpl ownerService;
 
-    @GetMapping("{id}/")
+    @GetMapping("{id}")
     public ResponseEntity<?> getOwnerById(@PathVariable long id) {
         return new ResponseEntity<>(ownerService.findOwner(id), HttpStatus.OK);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Owner> getOwners() {
         return ownerService.findAllOwners();
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> createOwner(@RequestBody OwnerBean ownerBean) {
         Owner owner = new Owner(ownerBean.getName(), ownerBean.getBirthDate());
         ownerService.saveOwner(owner);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("{id}/")
+    @PutMapping("{id}")
     public ResponseEntity<?> updateOwner(@RequestBody OwnerBean ownerBean) {
         Owner owner = new Owner(ownerBean.getName(), ownerBean.getBirthDate());
         ownerService.saveOwner(owner);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}/")
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deleteOwner(@RequestBody OwnerBean ownerBean) {
         Owner owner = new Owner(ownerBean.getName(), ownerBean.getBirthDate());
         ownerService.deleteOwner(owner);
