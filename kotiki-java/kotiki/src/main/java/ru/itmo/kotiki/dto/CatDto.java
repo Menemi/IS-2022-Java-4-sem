@@ -18,32 +18,16 @@ public class CatDto {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Date getBirthDate() {
         return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
     }
 
     public Breed getBreed() {
         return breed;
     }
 
-    public void setBreed(Breed breed) {
-        this.breed = breed;
-    }
-
     public Color getColor() {
         return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
     }
 
     @Override
