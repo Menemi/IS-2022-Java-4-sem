@@ -35,7 +35,7 @@ public class KotikiTest {
 
         when(ownerService.findOwner(1)).thenReturn(Optional.of(denchik));
         when(catService.findCat(1)).thenReturn(Optional.of(kotyara));
-        assertEquals(denchik, ownerService.findOwner(1));
-        assertEquals(kotyara, catService.findCat(1));
+        assertEquals(Optional.of(denchik), ownerService.findOwner(1));
+        assertEquals(Optional.of(kotyara), catService.findCat(1));
     }
 }
