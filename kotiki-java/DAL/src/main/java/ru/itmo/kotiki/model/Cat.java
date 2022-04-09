@@ -1,6 +1,7 @@
 package ru.itmo.kotiki.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,27 +11,34 @@ import java.util.List;
 @Table(name = "cats")
 public class Cat {
     @OneToMany(targetEntity = Cat.class)
+    @JoinColumn(name = "friend_id")
     private List<Cat> friends;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotBlank
     private int id;
 
     @Column(name = "name")
+    @NotBlank
     private String name;
 
     @Column(name = "birth_date")
+    @NotBlank
     private Date birthDate;
 
     @Enumerated(value = EnumType.STRING)
+    @NotBlank
     @Column(name = "breed")
     private Breed breed;
 
     @Enumerated(value = EnumType.STRING)
+    @NotBlank
     @Column(name = "color")
     private Color color;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotBlank
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
@@ -61,7 +69,7 @@ public class Cat {
         return birthDate;
     }
 
-    public Breed getType() {
+    public Breed getBreed() {
         return breed;
     }
 
