@@ -1,12 +1,17 @@
-package ru.itmo.kotiki.beans;
+package ru.itmo.kotiki.dto;
+
+import ru.itmo.kotiki.model.Breed;
+import ru.itmo.kotiki.model.Color;
 
 import java.sql.Date;
 
-public class OwnerBean {
+public class CatDto {
     private String name;
     private Date birthDate;
+    private Breed breed;
+    private Color color;
 
-    public OwnerBean() {
+    public CatDto() {
     }
 
     public String getName() {
@@ -25,6 +30,22 @@ public class OwnerBean {
         this.birthDate = birthDate;
     }
 
+    public Breed getBreed() {
+        return breed;
+    }
+
+    public void setBreed(Breed breed) {
+        this.breed = breed;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -34,9 +55,9 @@ public class OwnerBean {
             return false;
         }
 
-        OwnerBean that = (OwnerBean) o;
+        CatDto that = (CatDto) o;
 
-        if (birthDate != that.birthDate) {
+        if (birthDate != that.birthDate || breed != that.breed || color != that.color) {
             return false;
         }
 
@@ -49,14 +70,18 @@ public class OwnerBean {
         int result = 1;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + birthDate.getDay();
+        result = prime * result + ((breed == null) ? 0 : breed.hashCode());
+        result = prime * result + ((color == null) ? 0 : color.hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        return "OwnerBean{" +
+        return "CatBean{" +
                 "name='" + name + '\'' +
                 ", birth date=" + birthDate +
+                ", breed=" + breed +
+                ", color=" + color +
                 '}';
     }
 }
