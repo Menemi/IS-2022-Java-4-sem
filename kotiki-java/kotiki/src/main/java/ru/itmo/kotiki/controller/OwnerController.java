@@ -43,10 +43,10 @@ public class OwnerController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateOwner(@RequestBody OwnerDto ownerDto) {
-        Owner owner = generator.dtoOwnerToOwner(ownerDto);
+    public void updateOwner(@PathVariable int id, String name) {
+        Owner owner = ownerService.findOwner(id);
+        owner.setName(name);
         ownerService.saveOwner(owner);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

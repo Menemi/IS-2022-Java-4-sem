@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.itmo.kotiki.Generator;
 import ru.itmo.kotiki.dto.CatDto;
+import ru.itmo.kotiki.model.Owner;
 import ru.itmo.kotiki.service.CatServiceImpl;
 import ru.itmo.kotiki.model.Cat;
 
@@ -48,11 +49,11 @@ public class CatController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/update{id}")
-    public ResponseEntity<?> updateCat(@RequestBody CatDto catDto) {
-        Cat cat = generator.dtoCatToCat(catDto);
+    @PutMapping("/update/{id}")
+    public void updateCat(@PathVariable int id, String name) {
+        Cat cat = catService.findCat(id);
+        cat.setName(name);
         catService.saveCat(cat);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
