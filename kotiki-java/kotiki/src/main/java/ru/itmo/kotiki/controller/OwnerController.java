@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.itmo.kotiki.Generator;
 import ru.itmo.kotiki.dto.OwnerDto;
 import ru.itmo.kotiki.model.Owner;
-import ru.itmo.kotiki.service.OwnerServiceImpl;
+import ru.itmo.kotiki.service.OwnerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/owners")
 public class OwnerController {
-    @Autowired
-    private OwnerServiceImpl ownerService;
-
     private final Generator generator = new Generator();
+    @Autowired
+    private OwnerService ownerService;
 
     @GetMapping("/get/{id}")
     public OwnerDto getOwnerById(@PathVariable int id) {
