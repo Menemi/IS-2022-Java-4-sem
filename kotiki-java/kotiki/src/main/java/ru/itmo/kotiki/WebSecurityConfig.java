@@ -30,12 +30,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/cats/update/*", "/cats/create", "/cats/get", "/cats/get/*", "/cats/delete/*").hasRole("ADMIN")
+                .antMatchers("/owners/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
                 .and()
                 .logout().permitAll()
+                .and()
+                .cors()
+                .and()
+                .csrf().disable()
         ;
     }
 }
