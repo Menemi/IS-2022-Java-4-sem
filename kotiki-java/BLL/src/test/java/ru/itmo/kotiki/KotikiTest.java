@@ -1,18 +1,20 @@
 package ru.itmo.kotiki;
 
 import org.hibernate.Session;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
+import ru.itmo.kotiki.model.Breed;
 import ru.itmo.kotiki.model.Cat;
 import ru.itmo.kotiki.model.Color;
 import ru.itmo.kotiki.model.Owner;
-import ru.itmo.kotiki.model.Breed;
 import ru.itmo.kotiki.service.CatServiceImpl;
 import ru.itmo.kotiki.service.OwnerServiceImpl;
 
 import java.sql.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class KotikiTest {
     private Session session;

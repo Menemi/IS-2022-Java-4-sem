@@ -8,11 +8,11 @@ import ru.itmo.kotiki.model.Owner;
 import java.util.List;
 
 @Service
-public class OwnerServiceImpl implements OwnerService{
+public class OwnerServiceImpl implements OwnerService {
     private final OwnerDao ownerDao;
 
     @Autowired
-    public OwnerServiceImpl(OwnerDao ownerDao){
+    public OwnerServiceImpl(OwnerDao ownerDao) {
         this.ownerDao = ownerDao;
     }
 
