@@ -64,16 +64,9 @@ public class CatController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createCat(@RequestBody CatDto catDto) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-
-        if (username.equals("admin")) {
-            Cat cat = generator.dtoCatToCat(catDto);
-            catService.saveCat(cat);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        Cat cat = generator.dtoCatToCat(catDto);
+        catService.saveCat(cat);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
@@ -90,12 +83,6 @@ public class CatController {
 
     @DeleteMapping("/delete/{id}")
     public void deleteCat(@PathVariable int id) {
-        Cat cat = catService.findCat(id);
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        if (username.equals("admin")) {
-            catService.deleteCat(cat);
-        }
+        catService.deleteCat(catService.findCat(id));
     }
 }
