@@ -9,7 +9,6 @@ import ru.itmo.kotiki.model.Cat;
 import ru.itmo.kotiki.model.Role;
 import ru.itmo.kotiki.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,25 +24,19 @@ public class CatServiceImpl implements CatService {
     }
 
     public Cat findCat(int id) {
-        Cat cat = catDao.getById(id);
-        var user = SecurityContextHolder.getContext().getAuthentication();
+        User user = userDao.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        if (Objects.equals(cat.getOwner(), null)) {
-            if (Objects.equals(userDao.findUserByUsername(user.getName()).getRole(), Role.ROLE_ADMIN)) {
+        if (user.getRole() == Role.ROLE_ADMIN) {
+            return catDao.getById(id);
+        }
+
+        for (Cat cat : catDao.findCatsByOwnerId(user.getOwner().getId())) {
+            if (Objects.equals(cat.getId(), id)) {
                 return cat;
             }
-
-            return new Cat();
         }
 
-        User owner = userDao.getById(cat.getOwner().getId());
-
-        if (Objects.equals(userDao.findUserByUsername(user.getName()).getRole(), Role.ROLE_ADMIN) ||
-                Objects.equals(owner.getUsername(), user.getName())) {
-            return cat;
-        }
-
-        return new Cat();
+        return null;
     }
 
     public void saveCat(Cat cat) {
@@ -55,25 +48,12 @@ public class CatServiceImpl implements CatService {
     }
 
     public List<Cat> findAllCats() {
-        List<Cat> cats = new ArrayList<>();
-        var user = SecurityContextHolder.getContext().getAuthentication();
-        for (Cat cat : catDao.findAll()) {
-            if (Objects.equals(cat.getOwner(), null)) {
-                if (Objects.equals(userDao.findUserByUsername(user.getName()).getRole(), Role.ROLE_ADMIN)) {
-                    cats.add(cat);
-                }
+        User user = userDao.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
-                continue;
-            }
-
-            User owner = userDao.getById(cat.getOwner().getId());
-
-            if (Objects.equals(userDao.findUserByUsername(user.getName()).getRole(), Role.ROLE_ADMIN) ||
-                    Objects.equals(owner.getUsername(), user.getName())) {
-                cats.add(cat);
-            }
+        if (user.getRole() == Role.ROLE_ADMIN) {
+            return catDao.findAll();
         }
 
-        return cats;
+        return catDao.findCatsByOwnerId(user.getOwner().getId());
     }
 }

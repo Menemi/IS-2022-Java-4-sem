@@ -20,6 +20,10 @@ public class User {
     @NotBlank
     private Role role;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
+
     public User() {
     }
 
@@ -38,5 +42,13 @@ public class User {
 
     public Role getRole() {
         return role;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }
