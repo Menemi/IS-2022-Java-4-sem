@@ -3,8 +3,6 @@ package ru.itmo.kotiki.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.itmo.kotiki.Generator;
 import ru.itmo.kotiki.dto.CatDto;
@@ -24,6 +22,7 @@ public class CatController {
     // put / patch - изменяет,
     // delete - удаляет
 
+    @Autowired
     private final Generator generator = new Generator();
     @Autowired
     private CatService catService;
@@ -31,32 +30,16 @@ public class CatController {
     @GetMapping("/get/{id}")
     public CatDto getCatById(@PathVariable int id) {
         Cat cat = catService.findCat(id);
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-
-        if (username.equals("admin") || Objects.equals(catService.findCat(id).getOwner().getName(), username)) {
-            return generator.catToCatDto(cat);
-        }
-
-        return new CatDto();
+        return generator.catToCatDto(cat);
     }
 
     @GetMapping("/get")
     public List<CatDto> getCats() {
+        List<Cat> cats = catService.findAllCats();
         List<CatDto> catsDto = new ArrayList<>();
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-
-        for (Cat cat : catService.findAllCats()) {
-            if (cat.getOwner() == null && !username.equals("admin")) {
-                continue;
-            }
-
-            if (username.equals("admin") || Objects.equals(cat.getOwner().getName(), username)) {
-                catsDto.add(generator.catToCatDto(cat));
-            }
+        for (Cat cat : cats) {
+            catsDto.add(generator.catToCatDto(cat));
         }
 
         return catsDto;
@@ -73,9 +56,7 @@ public class CatController {
     public void updateCat(@PathVariable int id, String name) {
         Cat cat = catService.findCat(id);
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        if (username.equals("admin") || Objects.equals(catService.findCat(id).getOwner().getName(), username)) {
+        if (!Objects.equals(cat, new Cat())) {
             cat.setName(name);
             catService.saveCat(cat);
         }
