@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/owners")
 public class OwnerController {
+    @Autowired
     private final Generator generator = new Generator();
     @Autowired
     private OwnerService ownerService;
