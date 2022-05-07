@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.itmo.kotiki.Generator;
 import ru.itmo.kotiki.dto.CatDto;
-import ru.itmo.kotiki.model.Owner;
-import ru.itmo.kotiki.service.CatServiceImpl;
 import ru.itmo.kotiki.model.Cat;
+import ru.itmo.kotiki.service.CatService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/cats")
@@ -23,19 +23,22 @@ public class CatController {
     // delete - удаляет
 
     @Autowired
-    private CatServiceImpl catService;
-
     private final Generator generator = new Generator();
+    @Autowired
+    private CatService catService;
 
     @GetMapping("/get/{id}")
     public CatDto getCatById(@PathVariable int id) {
-        return generator.catToCatDto(catService.findCat(id));
+        Cat cat = catService.findCat(id);
+        return generator.catToCatDto(cat);
     }
 
     @GetMapping("/get")
     public List<CatDto> getCats() {
+        List<Cat> cats = catService.findAllCats();
         List<CatDto> catsDto = new ArrayList<>();
-        for (Cat cat : catService.findAllCats()) {
+
+        for (Cat cat : cats) {
             catsDto.add(generator.catToCatDto(cat));
         }
 
@@ -52,8 +55,11 @@ public class CatController {
     @PutMapping("/update/{id}")
     public void updateCat(@PathVariable int id, String name) {
         Cat cat = catService.findCat(id);
-        cat.setName(name);
-        catService.saveCat(cat);
+
+        if (!Objects.equals(cat, new Cat())) {
+            cat.setName(name);
+            catService.saveCat(cat);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
